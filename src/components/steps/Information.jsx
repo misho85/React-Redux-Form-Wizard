@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
-import Box from "@material-ui/core/Box";
-import Container from "@material-ui/core/Container";
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import MenuItem from "@material-ui/core/MenuItem";
-import Typography from "@material-ui/core/Typography";
-import { KeyboardDatePicker } from "@material-ui/pickers";
+import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 
 const FormControlS = styled(FormControl)`
   min-width: 100%;
@@ -27,52 +27,52 @@ const InputTitle = styled(Typography)`
 `;
 
 const authors = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder"
+  'Oliver Hansen',
+  'Van Henry',
+  'April Tucker',
+  'Ralph Hubbard',
+  'Omar Alexander',
+  'Carlos Abbott',
+  'Miriam Wagner',
+  'Bradley Wilkerson',
+  'Virginia Andrews',
+  'Kelly Snyder'
 ];
 
 const publishers = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder"
+  'Oliver Hansen',
+  'Van Henry',
+  'April Tucker',
+  'Ralph Hubbard',
+  'Omar Alexander',
+  'Carlos Abbott',
+  'Miriam Wagner',
+  'Bradley Wilkerson',
+  'Virginia Andrews',
+  'Kelly Snyder'
 ];
 
-const formats = ["format 1", "format 2", "format 3", "format 4"];
+const formats = ['format 1', 'format 2', 'format 3', 'format 4'];
 
-const languages = ["srpski", "hrvatski", "crnogorski", "bosanski"];
+const languages = ['srpski', 'hrvatski', 'crnogorski', 'bosanski'];
 
 const Information = () => {
-  const [bookTitle, setBookTitle] = useState("");
+  const [bookTitle, setBookTitle] = useState('');
   const [bookTitleLW, setbookTitleLW] = useState(0);
   const bookTitleRef = useRef(null);
   const handleChangeBookTitle = e => setBookTitle(e.target.value);
 
-  const [authorName, setAuthorName] = useState("");
+  const [authorName, setAuthorName] = useState('');
   const [authorLW, setAuthorLW] = useState(0);
   const authorRef = useRef(null);
   const handleChangeAuthor = e => setAuthorName(e.target.value);
 
-  const [isbn, setIsbn] = useState("");
+  const [isbn, setIsbn] = useState('');
   const [isbnLW, setIsbnLW] = useState(0);
   const isbnRef = useRef(null);
   const handleChangeIsbn = e => setIsbn(e.target.value);
 
-  const [publisherName, setPublisherName] = useState("");
+  const [publisherName, setPublisherName] = useState('');
   const [publisherLW, setPublisherLW] = useState(0);
   const publisherRef = useRef(null);
   const handleChangePublisher = e => setPublisherName(e.target.value);
@@ -80,27 +80,27 @@ const Information = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const handleDateChange = date => setSelectedDate(date);
 
-  const [number, setNumber] = useState("");
+  const [number, setNumber] = useState('');
   const [numberLW, setNumberLW] = useState(0);
   const numberRef = useRef(null);
   const handleChangeNumber = e => setNumber(e.target.value);
 
-  const [formatName, setFormatName] = useState("");
+  const [formatName, setFormatName] = useState('');
   const [formatLW, setFormatLW] = useState(0);
   const formatRef = useRef(null);
   const handleChangeFormat = e => setFormatName(e.target.value);
 
-  const [edition, setEdition] = useState("");
+  const [edition, setEdition] = useState('');
   const [editionLW, setEditionLW] = useState(0);
   const editionRef = useRef(null);
   const handleChangeEdition = e => setEdition(e.target.value);
 
-  const [editionLang, setEditionLang] = useState("");
+  const [editionLang, setEditionLang] = useState('');
   const [editionLangLW, setEditionLangLW] = useState(0);
   const editionLangRef = useRef(null);
   const handleChangeEditionLang = e => setEditionLang(e.target.value);
 
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState('');
   const [descriptionLW, setDescriptionLW] = useState(0);
   const descriptionRef = useRef(null);
   const handleChangeDescription = e => setDescription(e.target.value);
@@ -141,13 +141,7 @@ const Information = () => {
             <Select
               value={authorName}
               onChange={handleChangeAuthor}
-              input={
-                <OutlinedInput
-                  labelWidth={authorLW}
-                  name="author"
-                  id="author"
-                />
-              }
+              input={<OutlinedInput labelWidth={authorLW} name="author" id="author" />}
             >
               {authors.map(author => (
                 <MenuItem key={author} value={author}>
@@ -161,12 +155,7 @@ const Information = () => {
             <InputLabel ref={isbnRef} htmlFor="isbn">
               ISBN
             </InputLabel>
-            <OutlinedInput
-              id="isbn"
-              value={isbn}
-              onChange={handleChangeIsbn}
-              labelWidth={isbnLW}
-            />
+            <OutlinedInput id="isbn" value={isbn} onChange={handleChangeIsbn} labelWidth={isbnLW} />
           </FormControlS>
           <InputTitle variant="body2">Publisher</InputTitle>
           <FormControlS variant="outlined">
@@ -176,13 +165,7 @@ const Information = () => {
             <Select
               value={publisherName}
               onChange={handleChangePublisher}
-              input={
-                <OutlinedInput
-                  labelWidth={publisherLW}
-                  name="publisher"
-                  id="publisher"
-                />
-              }
+              input={<OutlinedInput labelWidth={publisherLW} name="publisher" id="publisher" />}
             >
               {publishers.map(publisher => (
                 <MenuItem key={publisher} value={publisher}>
@@ -198,7 +181,7 @@ const Information = () => {
             inputVariant="outlined"
             format="MM/dd/yyyy"
             value={selectedDate}
-            InputAdornmentProps={{ position: "start" }}
+            InputAdornmentProps={{ position: 'start' }}
             onChange={handleDateChange}
           />
           <InputTitle variant="body2">Number of pages</InputTitle>
@@ -222,13 +205,7 @@ const Information = () => {
             <Select
               value={formatName}
               onChange={handleChangeFormat}
-              input={
-                <OutlinedInput
-                  labelWidth={formatLW}
-                  name="format"
-                  id="format"
-                />
-              }
+              input={<OutlinedInput labelWidth={formatLW} name="format" id="format" />}
             >
               {formats.map(format => (
                 <MenuItem key={format} value={format}>
