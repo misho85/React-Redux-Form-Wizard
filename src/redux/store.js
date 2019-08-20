@@ -4,7 +4,7 @@ import monitorReducersEnhancer from './enhancers/monitorReducers';
 import loggerMiddleware from './middleware/logger';
 import rootReducer from './reducers';
 
-export default function configureAppStore(preloadedState) {
+const configureAppStore = preloadedState => {
   const store = configureStore({
     reducer: rootReducer,
     middleware: [loggerMiddleware, ...getDefaultMiddleware()],
@@ -17,4 +17,6 @@ export default function configureAppStore(preloadedState) {
   }
 
   return store;
-}
+};
+
+export default configureAppStore();

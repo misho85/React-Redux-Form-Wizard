@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -10,7 +11,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { Genre, Subgenre, AddNewSubgenre, Information, Success } from './steps';
-import axios from 'axios';
+import { getPickGenre } from '../redux/selectors';
 
 const btn = css`
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -43,10 +44,10 @@ const StepIconS = withStyles({
 
 const StepDots = () => <StepIconS icon={'...'} />;
 
-const getStepContent = (stepIndex, genres) => {
+const getStepContent = stepIndex => {
   switch (stepIndex) {
     case 0:
-      return <Genre genres={genres} />;
+      return <Genre />;
     case 1:
       return <Subgenre />;
     case 2:
@@ -60,36 +61,7 @@ const getStepContent = (stepIndex, genres) => {
 
 const stepsAll = ['genre', 'subgenre', 'add new subgenre', 'information'];
 
-const HorizontalStepper = () => {
-  const [config, setConfig] = useState(null);
-  const [genres, setGenres] = useState(null);
-  useEffect(() => {
-    const { CancelToken } = axios;
-    const source = CancelToken.source();
-
-    const fetchData = async () => {
-      try {
-        const result = await axios(`./config.json`);
-
-        setConfig(result.data.genres);
-      } catch (e) {
-        console.error(e.response.status);
-      }
-    };
-    fetchData().catch(console.error);
-
-    return () => {
-      source.cancel();
-    };
-  }, []);
-
-  useEffect(() => {
-    const genresData = config && config.reduce((acc, curr) => acc.concat(curr.name), []);
-    setGenres(genresData);
-  }, [config]);
-
-  console.log(config);
-
+const HorizontalStepper = ({ pickGenre }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const getSteps = steps => {
@@ -133,12 +105,12 @@ const HorizontalStepper = () => {
           <Success handleReset={handleReset} />
         ) : (
           <>
-            {getStepContent(activeStep, genres)}
+            {getStepContent(activeStep)}
             <Box display="flex" justifyContent="flex-end" px={6} py={4}>
               <BackButton variant="contained" disabled={activeStep === 0} onClick={handleBack}>
                 Back
               </BackButton>
-              <NextButton variant="contained" onClick={handleNext}>
+              <NextButton variant="contained" disabled={!pickGenre} onClick={handleNext}>
                 {activeStep === stepsAll.length - 1 ? 'Finish' : 'Next'}
               </NextButton>
             </Box>
@@ -149,4 +121,8 @@ const HorizontalStepper = () => {
   );
 };
 
-export default HorizontalStepper;
+const mapStateToProps = state => ({
+  pickGenre: getPickGenre(state)
+});
+
+export default connect(mapStateToProps)(HorizontalStepper);

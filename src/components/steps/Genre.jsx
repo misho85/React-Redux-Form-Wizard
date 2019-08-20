@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+import { setGenre } from '../../redux/actions';
+import { getGenres, getPickGenre } from '../../redux/selectors';
 
 const pick = css`
   background-color: #1976d2;
@@ -26,14 +29,7 @@ const Field = styled(Button)`
   ${p => p.pick && pick};
 `;
 
-const Genre = ({ genres }) => {
-  // pickGenre u redux
-  const [pickGenre, setPickGenre] = useState(null);
-
-  const handleGenre = genre => setPickGenre(genre);
-
-  console.log(pickGenre);
-
+const Genre = ({ genres, pickGenre, setGenre }) => {
   return (
     <Box py={4} px={4}>
       <Container maxWidth="md">
@@ -46,8 +42,7 @@ const Genre = ({ genres }) => {
                     variant="outlined"
                     disabled={!genres[i]}
                     value={genres[i]}
-                    onClick={() => handleGenre(genres[i])}
-                    // pick={false}
+                    onClick={() => setGenre(genres[i])}
                     pick={pickGenre === genres[i]}
                   >
                     {genres[i] ? `${genres[i]}` : `Genre ${i + 1}`}
@@ -61,4 +56,12 @@ const Genre = ({ genres }) => {
   );
 };
 
-export default Genre;
+const mapStateToProps = state => ({
+  genres: getGenres(state),
+  pickGenre: getPickGenre(state)
+});
+
+export default connect(
+  mapStateToProps,
+  { setGenre }
+)(Genre);

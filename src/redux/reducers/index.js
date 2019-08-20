@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
-import configReducer from './configReducer';
+import fetchConfig from './fetchConfig';
+import genre from './genre';
 
-export default combineReducers({ configReducer });
+export default combineReducers({ fetchConfig, genre });

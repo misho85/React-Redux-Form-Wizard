@@ -1,12 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './App';
-import configureStore from './redux/configureStore';
+import App from './components/App';
+import store from './redux/store';
 import { fetchConfig } from './redux/actions';
 import * as serviceWorker from './serviceWorker';
 
-export const store = configureStore();
 store.dispatch(fetchConfig('./config.json'));
 
 const renderApp = () =>
@@ -18,7 +17,7 @@ const renderApp = () =>
   );
 
 if (process.env.NODE_ENV !== 'production' && module.hot) {
-  module.hot.accept('./App', renderApp);
+  module.hot.accept('./components/App', renderApp);
 }
 
 renderApp();
