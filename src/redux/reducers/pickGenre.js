@@ -2,7 +2,7 @@ import { SET_GENRE } from '../actions/types';
 
 const initialState = null;
 
-const genre = (state = initialState, action) => {
+const pickGenre = (state = initialState, action) => {
   switch (action.type) {
     case SET_GENRE:
       return action.genre;
@@ -11,4 +11,4 @@ const genre = (state = initialState, action) => {
   }
 };
 
-export default genre;
+export default pickGenre;

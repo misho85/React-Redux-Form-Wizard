@@ -1,4 +1,11 @@
-import { FETCH_CONFIG_LOADING, FETCH_CONFIG_SUCCESS, FETCH_CONFIG_ERROR, SET_GENRE } from './types';
+import {
+  FETCH_CONFIG_LOADING,
+  FETCH_CONFIG_SUCCESS,
+  FETCH_CONFIG_ERROR,
+  SET_GENRE,
+  SET_SUBGENRE,
+  ADD_SUBGENRE
+} from './types';
 import axios from 'axios';
 
 // actions
@@ -19,6 +26,15 @@ export const fetchConfigError = error => ({
 export const setGenre = genre => ({
   type: SET_GENRE,
   genre
+});
+
+export const setSubgenre = subgenre => ({
+  type: SET_SUBGENRE,
+  subgenre
+});
+
+export const addSubgenre = () => ({
+  type: ADD_SUBGENRE
 });
 
 // action creators

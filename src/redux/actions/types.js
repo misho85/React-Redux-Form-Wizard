@@ -3,3 +3,7 @@ export const FETCH_CONFIG_SUCCESS = 'FETCH_CONFIG_SUCCESS';
 export const FETCH_CONFIG_ERROR = 'FETCH_CONFIG_ERROR';
 
 export const SET_GENRE = 'SET_GENRE';
+
+export const SET_SUBGENRE = 'SET_SUBGENRE';
+
+export const ADD_SUBGENRE = 'ADD_SUBGENRE';

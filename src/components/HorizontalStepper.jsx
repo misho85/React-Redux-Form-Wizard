@@ -11,7 +11,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { Genre, Subgenre, AddNewSubgenre, Information, Success } from './steps';
-import { getPickGenre } from '../redux/selectors';
+import { getPickGenre, getPickSubgenre } from '../redux/selectors';
 
 const btn = css`
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -61,7 +61,7 @@ const getStepContent = stepIndex => {
 
 const stepsAll = ['genre', 'subgenre', 'add new subgenre', 'information'];
 
-const HorizontalStepper = ({ pickGenre }) => {
+const HorizontalStepper = ({ pickGenre, pickSubgenre }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const getSteps = steps => {
@@ -110,7 +110,11 @@ const HorizontalStepper = ({ pickGenre }) => {
               <BackButton variant="contained" disabled={activeStep === 0} onClick={handleBack}>
                 Back
               </BackButton>
-              <NextButton variant="contained" disabled={!pickGenre} onClick={handleNext}>
+              <NextButton
+                variant="contained"
+                disabled={activeStep === 0 ? !pickGenre : !pickSubgenre}
+                onClick={handleNext}
+              >
                 {activeStep === stepsAll.length - 1 ? 'Finish' : 'Next'}
               </NextButton>
             </Box>
@@ -122,7 +126,8 @@ const HorizontalStepper = ({ pickGenre }) => {
 };
 
 const mapStateToProps = state => ({
-  pickGenre: getPickGenre(state)
+  pickGenre: getPickGenre(state),
+  pickSubgenre: getPickSubgenre(state)
 });
 
 export default connect(mapStateToProps)(HorizontalStepper);
