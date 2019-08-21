@@ -14,4 +14,7 @@ export const getPickSubgenre = store => store.pickSubgenre;
 
 export const getAddSubgenre = store => store.addSubgenre;
 export const getAddSubgenreEnter = store => getAddSubgenre(store).enterAddNew;
-export const getAddSubgenreData = store => getAddSubgenre(store).data;
+export const getAddSubgenreFields = store => getAddSubgenre(store).fields;
+
+export const getInfoForm = store => store.infoForm;
+export const getInfoFormFields = store => getInfoForm(store).fields;

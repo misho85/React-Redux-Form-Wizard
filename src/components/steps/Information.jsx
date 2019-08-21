@@ -3,18 +3,8 @@ import styled from 'styled-components';
 
 // Redux
 import { connect } from 'react-redux';
-import {
-  setBookTitle,
-  setAuthor,
-  setISBN,
-  setPublisher,
-  setDate,
-  setNumberOfPages,
-  setFormat,
-  setEdition,
-  setEditionLang,
-  setDescription
-} from '../../redux/actions';
+import { setInfoForm } from '../../redux/actions';
+import { getInfoFormFields } from '../../redux/selectors';
 
 // Material UI
 import Box from '@material-ui/core/Box';
@@ -26,8 +16,6 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import { KeyboardDatePicker } from '@material-ui/pickers';
-
-import store from '../../redux/store';
 
 const FormControlS = styled(FormControl)`
   min-width: 100%;
@@ -45,88 +33,41 @@ const InputTitle = styled(Typography)`
   padding-top: 24px;
 `;
 
-const authors = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder'
-];
+// fake data
+const data = {
+  authors: ['author 1', 'author 2', 'author 3', 'author 4'],
+  publishers: ['publisher 1', 'publisher 2', 'publisher 3', 'publisher 4'],
+  formats: ['format 1', 'format 2', 'format 3', 'format 4'],
+  languages: ['srpski', 'hrvatski', 'crnogorski', 'bosanski']
+};
 
-const publishers = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder'
-];
-
-const formats = ['format 1', 'format 2', 'format 3', 'format 4'];
-
-const languages = ['srpski', 'hrvatski', 'crnogorski', 'bosanski'];
-
-const Information = ({
-  setBookTitle,
-  setAuthor,
-  setISBN,
-  setPublisher,
-  setDate,
-  setNumberOfPages,
-  setFormat,
-  setEdition,
-  setEditionLang,
-  setDescription,
-  fields
-}) => {
-  console.log('store', store.getState());
-
+const Information = ({ setInfoForm, fields }) => {
   const [bookTitleLW, setbookTitleLW] = useState(0);
   const bookTitleRef = useRef(null);
-  const handleChangeBookTitle = e => setBookTitle(e.target.value);
 
   const [authorLW, setAuthorLW] = useState(0);
   const authorRef = useRef(null);
-  const handleChangeAuthor = e => setAuthor(e.target.value);
 
   const [isbnLW, setIsbnLW] = useState(0);
   const isbnRef = useRef(null);
-  const handleChangeIsbn = e => setISBN(e.target.value);
 
   const [publisherLW, setPublisherLW] = useState(0);
   const publisherRef = useRef(null);
-  const handleChangePublisher = e => setPublisher(e.target.value);
-
-  const handleDateChange = date => setDate(date.toLocaleString());
 
   const [numberLW, setNumberLW] = useState(0);
   const numberRef = useRef(null);
-  const handleChangeNumber = e => setNumberOfPages(e.target.value);
 
   const [formatLW, setFormatLW] = useState(0);
   const formatRef = useRef(null);
-  const handleChangeFormat = e => setFormat(e.target.value);
 
   const [editionLW, setEditionLW] = useState(0);
   const editionRef = useRef(null);
-  const handleChangeEdition = e => setEdition(e.target.value);
 
   const [editionLangLW, setEditionLangLW] = useState(0);
   const editionLangRef = useRef(null);
-  const handleChangeEditionLang = e => setEditionLang(e.target.value);
 
   const [descriptionLW, setDescriptionLW] = useState(0);
   const descriptionRef = useRef(null);
-  const handleChangeDescription = e => setDescription(e.target.value);
 
   useEffect(() => {
     setbookTitleLW(bookTitleRef.current.offsetWidth);
@@ -140,6 +81,8 @@ const Information = ({
     setDescriptionLW(descriptionRef.current.offsetWidth);
   }, []);
 
+  const handleChange = name => e => setInfoForm(name, e.target.value);
+
   return (
     <Box py={4} px={4}>
       <Container maxWidth="md">
@@ -152,7 +95,7 @@ const Information = ({
             <OutlinedInput
               id="book-title"
               value={fields.bookTitle}
-              onChange={handleChangeBookTitle}
+              onChange={handleChange('bookTitle')}
               labelWidth={bookTitleLW}
             />
           </FormControlS>
@@ -163,10 +106,10 @@ const Information = ({
             </InputLabel>
             <Select
               value={fields.author}
-              onChange={handleChangeAuthor}
+              onChange={handleChange('author')}
               input={<OutlinedInput labelWidth={authorLW} name="author" id="author" />}
             >
-              {authors.map(author => (
+              {data.authors.map(author => (
                 <MenuItem key={author} value={author}>
                   {author}
                 </MenuItem>
@@ -181,7 +124,7 @@ const Information = ({
             <OutlinedInput
               id="isbn"
               value={fields.isbn}
-              onChange={handleChangeIsbn}
+              onChange={handleChange('isbn')}
               labelWidth={isbnLW}
             />
           </FormControlS>
@@ -192,10 +135,10 @@ const Information = ({
             </InputLabel>
             <Select
               value={fields.publisher}
-              onChange={handleChangePublisher}
+              onChange={handleChange('publisher')}
               input={<OutlinedInput labelWidth={publisherLW} name="publisher" id="publisher" />}
             >
-              {publishers.map(publisher => (
+              {data.publishers.map(publisher => (
                 <MenuItem key={publisher} value={publisher}>
                   {publisher}
                 </MenuItem>
@@ -204,13 +147,13 @@ const Information = ({
           </FormControlS>
           <InputTitle variant="body2">Date published</InputTitle>
           <KeyboardDatePicker
+            value={fields.date}
+            onChange={date => setInfoForm('date', date.toLocaleString())}
             autoOk
             variant="inline"
             inputVariant="outlined"
             format="MM/dd/yyyy"
-            value={fields.date}
             InputAdornmentProps={{ position: 'start' }}
-            onChange={handleDateChange}
           />
           <InputTitle variant="body2">Number of pages</InputTitle>
           <FormControl variant="outlined">
@@ -221,7 +164,7 @@ const Information = ({
               id="number"
               value={fields.numOfPages}
               type="number"
-              onChange={handleChangeNumber}
+              onChange={handleChange('numOfPages')}
               labelWidth={numberLW}
             />
           </FormControl>
@@ -232,10 +175,10 @@ const Information = ({
             </InputLabel>
             <Select
               value={fields.format}
-              onChange={handleChangeFormat}
+              onChange={handleChange('format')}
               input={<OutlinedInput labelWidth={formatLW} name="format" id="format" />}
             >
-              {formats.map(format => (
+              {data.formats.map(format => (
                 <MenuItem key={format} value={format}>
                   {format}
                 </MenuItem>
@@ -252,7 +195,7 @@ const Information = ({
                 <OutlinedInput
                   id="edition"
                   value={fields.edition}
-                  onChange={handleChangeEdition}
+                  onChange={handleChange('edition')}
                   labelWidth={editionLW}
                 />
               </FormControlS2>
@@ -265,7 +208,7 @@ const Information = ({
                 </InputLabel>
                 <Select
                   value={fields.editionLang}
-                  onChange={handleChangeEditionLang}
+                  onChange={handleChange('editionLang')}
                   input={
                     <OutlinedInput
                       labelWidth={editionLangLW}
@@ -274,7 +217,7 @@ const Information = ({
                     />
                   }
                 >
-                  {languages.map(lang => (
+                  {data.languages.map(lang => (
                     <MenuItem key={lang} value={lang}>
                       {lang}
                     </MenuItem>
@@ -291,7 +234,7 @@ const Information = ({
             <OutlinedInput
               id="description"
               value={fields.description}
-              onChange={handleChangeDescription}
+              onChange={handleChange('description')}
               labelWidth={descriptionLW}
               multiline
               rows="4"
@@ -304,21 +247,12 @@ const Information = ({
 };
 
 const mapStateToProps = state => ({
-  fields: state.infoForm
+  fields: getInfoFormFields(state)
 });
 
 export default connect(
   mapStateToProps,
   {
-    setBookTitle,
-    setAuthor,
-    setISBN,
-    setPublisher,
-    setDate,
-    setNumberOfPages,
-    setFormat,
-    setEdition,
-    setEditionLang,
-    setDescription
+    setInfoForm
   }
 )(Information);

@@ -2,7 +2,7 @@ import { ENTER_SUBGENRE, LEAVE_SUBGENRE, SET_NEW_SUBGENRE } from '../actions/typ
 
 const initialState = {
   enterAddNew: false,
-  data: {
+  fields: {
     newSubgenre: '',
     checked: false
   }
@@ -25,8 +25,8 @@ const addSubgenre = (state = initialState, action) => {
     case SET_NEW_SUBGENRE:
       return {
         ...state,
-        data: {
-          ...state.data,
+        fields: {
+          ...state.fields,
           [action.field]: action.value
         }
       };
