@@ -4,9 +4,20 @@ import {
   FETCH_CONFIG_ERROR,
   SET_GENRE,
   SET_SUBGENRE,
-  ADD_SUBGENRE
+  ENTER_SUBGENRE,
+  LEAVE_SUBGENRE,
+  SET_NEW_SUBGENRE,
+  SET_BOOK_TITLE,
+  SET_AUTHOR,
+  SET_ISBN,
+  SET_PUBLISHER,
+  SET_DATE,
+  SET_NUMBER_OF_PAGES,
+  SET_FORMAT,
+  SET_EDITION,
+  SET_EDITION_LANG,
+  SET_DESCRIPTION
 } from './types';
-import axios from 'axios';
 
 // actions
 export const fetchConfigLoading = () => ({
@@ -33,21 +44,58 @@ export const setSubgenre = subgenre => ({
   subgenre
 });
 
-export const addSubgenre = () => ({
-  type: ADD_SUBGENRE
+export const enterSubgenre = () => ({
+  type: ENTER_SUBGENRE
 });
 
-// action creators
-export const fetchConfig = apiUrl => {
-  return dispatch => {
-    dispatch(fetchConfigLoading());
-    return axios
-      .get(apiUrl)
-      .then(({ data }) => {
-        dispatch(fetchConfigSuccess(data.genres));
-      })
-      .catch(error => {
-        dispatch(fetchConfigError(error));
-      });
-  };
-};
+export const leaveSubgenre = () => ({
+  type: LEAVE_SUBGENRE
+});
+
+export const setNewSubgenre = (field, value) => ({
+  type: SET_NEW_SUBGENRE,
+  field,
+  value
+});
+
+// Information form
+export const setBookTitle = bookTitle => ({
+  type: SET_BOOK_TITLE,
+  bookTitle
+});
+export const setAuthor = author => ({
+  type: SET_AUTHOR,
+  author
+});
+export const setISBN = isbn => ({
+  type: SET_ISBN,
+  isbn
+});
+export const setPublisher = publisher => ({
+  type: SET_PUBLISHER,
+  publisher
+});
+export const setDate = date => ({
+  type: SET_DATE,
+  date
+});
+export const setNumberOfPages = numOfPages => ({
+  type: SET_NUMBER_OF_PAGES,
+  numOfPages
+});
+export const setFormat = format => ({
+  type: SET_FORMAT,
+  format
+});
+export const setEdition = edition => ({
+  type: SET_EDITION,
+  edition
+});
+export const setEditionLang = editionLang => ({
+  type: SET_EDITION_LANG,
+  editionLang
+});
+export const setDescription = description => ({
+  type: SET_DESCRIPTION,
+  description
+});

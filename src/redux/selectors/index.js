@@ -11,3 +11,7 @@ export const getSubgenres = store =>
 export const getSubgenresNames = store =>
   getSubgenres(store).reduce((acc, curr) => acc.concat(curr.name), []);
 export const getPickSubgenre = store => store.pickSubgenre;
+
+export const getAddSubgenre = store => store.addSubgenre;
+export const getAddSubgenreEnter = store => getAddSubgenre(store).enterAddNew;
+export const getAddSubgenreData = store => getAddSubgenre(store).data;

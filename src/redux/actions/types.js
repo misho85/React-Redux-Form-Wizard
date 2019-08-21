@@ -6,4 +6,17 @@ export const SET_GENRE = 'SET_GENRE';
 
 export const SET_SUBGENRE = 'SET_SUBGENRE';
 
-export const ADD_SUBGENRE = 'ADD_SUBGENRE';
+export const ENTER_SUBGENRE = 'ENTER_SUBGENRE';
+export const LEAVE_SUBGENRE = 'LEAVE_SUBGENRE';
+export const SET_NEW_SUBGENRE = 'SET_NEW_SUBGENRE';
+
+export const SET_BOOK_TITLE = 'SET_BOOK_TITLE';
+export const SET_AUTHOR = 'SET_AUTHOR';
+export const SET_ISBN = 'SET_ISBN';
+export const SET_PUBLISHER = 'SET_PUBLISHER';
+export const SET_DATE = 'SET_DATE';
+export const SET_NUMBER_OF_PAGES = 'SET_NUMBER_OF_PAGES';
+export const SET_FORMAT = 'SET_FORMAT';
+export const SET_EDITION = 'SET_EDITION';
+export const SET_EDITION_LANG = 'SET_EDITION_LANG';
+export const SET_DESCRIPTION = 'SET_DESCRIPTION';

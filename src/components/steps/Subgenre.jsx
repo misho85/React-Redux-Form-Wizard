@@ -1,12 +1,16 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
+
+// Redux
+import { connect } from 'react-redux';
+import { setSubgenre, enterSubgenre, leaveSubgenre } from '../../redux/actions';
+import { getPickSubgenre, getSubgenresNames, getAddSubgenreEnter } from '../../redux/selectors';
+
+// MUI
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-import { setSubgenre } from '../../redux/actions';
-import { getPickSubgenre, getSubgenresNames } from '../../redux/selectors';
 
 const pick = css`
   background-color: #1976d2;
@@ -29,52 +33,58 @@ const Field = styled(Button)`
   ${p => p.pick && pick};
 `;
 
-const Subgenre = ({ pickSubgenre, setSubgenre, subgenres }) => {
-  console.log('subgenres', subgenres);
-  console.log('pickSubgenre', pickSubgenre);
-
-  return (
-    <Box py={4} px={4}>
-      <Container maxWidth="md">
-        <Grid container spacing={1}>
-          <Grid container item xs={12} spacing={3}>
-            {[...Array(7).keys()].map(i => (
-              <Grid key={i + 1} align="center" item xs={3}>
-                <Field
-                  variant="outlined"
-                  disabled={!subgenres[i]}
-                  value={subgenres[i]}
-                  onClick={() => setSubgenre(subgenres[i])}
-                  pick={pickSubgenre === subgenres[i]}
-                >
-                  {subgenres[i] ? `${subgenres[i]}` : `Subgenre ${i + 1}`}
-                </Field>
-              </Grid>
-            ))}
-            <Grid align="center" item xs={3}>
+const Subgenre = ({
+  pickSubgenre,
+  setSubgenre,
+  subgenres,
+  enterSubgenre,
+  leaveSubgenre,
+  enterAddNew
+}) => (
+  <Box py={4} px={4}>
+    <Container maxWidth="md">
+      <Grid container spacing={1}>
+        <Grid container item xs={12} spacing={3}>
+          {[...Array(7).keys()].map(i => (
+            <Grid key={i + 1} align="center" item xs={3}>
               <Field
+                title={subgenres[i]}
                 variant="outlined"
-                // disabled={""}
-                // value={""}
-                // onClick={() => {}}
-                // pick={pickGenre === ""}
+                disabled={!subgenres[i]}
+                value={subgenres[i]}
+                onClick={() => {
+                  setSubgenre(subgenres[i]);
+                  leaveSubgenre();
+                }}
+                pick={pickSubgenre === subgenres[i] && !enterAddNew}
               >
-                Add new
+                {subgenres[i] ? `${subgenres[i]}` : `Subgenre ${i + 1}`}
               </Field>
             </Grid>
+          ))}
+          <Grid align="center" item xs={3}>
+            <Field
+              title="Add new"
+              variant="outlined"
+              pick={enterAddNew}
+              onClick={() => enterSubgenre()}
+            >
+              Add new
+            </Field>
           </Grid>
         </Grid>
-      </Container>
-    </Box>
-  );
-};
+      </Grid>
+    </Container>
+  </Box>
+);
 
 const mapStateToProps = state => ({
   pickSubgenre: getPickSubgenre(state),
-  subgenres: getSubgenresNames(state)
+  subgenres: getSubgenresNames(state),
+  enterAddNew: getAddSubgenreEnter(state)
 });
 
 export default connect(
   mapStateToProps,
-  { setSubgenre }
+  { setSubgenre, enterSubgenre, leaveSubgenre }
 )(Subgenre);

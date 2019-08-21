@@ -1,46 +1,52 @@
-import React, { useState } from "react";
-import TextField from "@material-ui/core/TextField";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Box from "@material-ui/core/Box";
-import Container from "@material-ui/core/Container";
+import React from 'react';
 
-const AddNewSubgenre = () => {
-  const [state, setState] = useState({
-    checked: false
-  });
+// Redux
+import { connect } from 'react-redux';
+import { setNewSubgenre } from '../../redux/actions';
+import { getAddSubgenreData } from '../../redux/selectors';
 
-  const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-  };
+// MUI
+import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
 
-  return (
-    <Box py={4} px={4}>
-      <Container maxWidth="md">
-        <form>
-          <TextField
-            id="add-new-subgenre"
-            label="Add new Subgenre"
-            placeholder="Subgenre"
-            fullWidth
-            margin="normal"
-            variant="outlined"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={state.checked}
-                onChange={handleChange("checked")}
-                value="checked"
-                color="primary"
-              />
-            }
-            label="Description is required for this subgenre"
-          />
-        </form>
-      </Container>
-    </Box>
-  );
-};
+const AddNewSubgenre = ({ setNewSubgenre, fields }) => (
+  <Box py={4} px={4}>
+    <Container maxWidth="md">
+      <form>
+        <TextField
+          id="add-new-subgenre"
+          label="Add new Subgenre"
+          placeholder="Subgenre"
+          value={fields.newSubgenre}
+          onChange={e => setNewSubgenre('newSubgenre', e.target.value)}
+          fullWidth
+          margin="normal"
+          variant="outlined"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={fields.checked}
+              onChange={e => setNewSubgenre('checked', e.target.checked)}
+              value="checked"
+              color="primary"
+            />
+          }
+          label="Description is required for this subgenre"
+        />
+      </form>
+    </Container>
+  </Box>
+);
 
-export default AddNewSubgenre;
+const mapStateToProps = state => ({
+  fields: getAddSubgenreData(state)
+});
+
+export default connect(
+  mapStateToProps,
+  { setNewSubgenre }
+)(AddNewSubgenre);

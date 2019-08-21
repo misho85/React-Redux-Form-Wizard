@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './components/App';
 import store from './redux/store';
-import { fetchConfig } from './redux/actions';
+import { fetchConfig } from './redux/thunk';
 import * as serviceWorker from './serviceWorker';
 
 store.dispatch(fetchConfig('./config.json'));

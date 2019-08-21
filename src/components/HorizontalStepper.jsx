@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
+
+// Redux
+import { connect } from 'react-redux';
+import { getPickGenre, getPickSubgenre, getAddSubgenreEnter } from '../redux/selectors';
+
+// MUI
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -10,8 +15,8 @@ import StepIcon from '@material-ui/core/StepIcon';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+
 import { Genre, Subgenre, AddNewSubgenre, Information, Success } from './steps';
-import { getPickGenre, getPickSubgenre } from '../redux/selectors';
 
 const btn = css`
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -44,31 +49,19 @@ const StepIconS = withStyles({
 
 const StepDots = () => <StepIconS icon={'...'} />;
 
-const getStepContent = stepIndex => {
-  switch (stepIndex) {
-    case 0:
-      return <Genre />;
-    case 1:
-      return <Subgenre />;
-    case 2:
-      return <AddNewSubgenre />;
-    case 3:
-      return <Information />;
-    default:
-      return 'Uknown stepIndex';
-  }
-};
-
 const stepsAll = ['genre', 'subgenre', 'add new subgenre', 'information'];
 
-const HorizontalStepper = ({ pickGenre, pickSubgenre }) => {
+const HorizontalStepper = ({ pickGenre, pickSubgenre, enterAddNew }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const getSteps = steps => {
     return activeStep < 2 ? steps.slice(0, 2) : steps;
   };
 
-  const steps = getSteps(stepsAll);
+  const stepsCon =
+    pickSubgenre && !enterAddNew ? stepsAll.filter((step, i) => step[i] !== step[2]) : stepsAll;
+  console.log('stepsCon', stepsCon);
+  const steps = getSteps(stepsCon);
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -81,6 +74,32 @@ const HorizontalStepper = ({ pickGenre, pickSubgenre }) => {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  const getStepContent = (stepIndex, pickSubgenre) => {
+    switch (stepIndex) {
+      case 0:
+        return <Genre />;
+      case 1:
+        return <Subgenre />;
+      case 2:
+        return enterAddNew ? <AddNewSubgenre /> : <Information />;
+      case 3:
+        return enterAddNew ? <Information /> : 'Uknown stepIndex';
+      default:
+        return 'Uknown stepIndex';
+    }
+  };
+
+  const nextBtnDisable =
+    activeStep === 0
+      ? !pickGenre
+      : activeStep === 1
+      ? !pickSubgenre && !enterAddNew
+      : activeStep === 2 && enterAddNew
+      ? false // uslov za formu addNew
+      : false; // uslov za formu Info
+
+  console.log('nextBtnDisable', nextBtnDisable);
 
   return (
     <>
@@ -110,12 +129,8 @@ const HorizontalStepper = ({ pickGenre, pickSubgenre }) => {
               <BackButton variant="contained" disabled={activeStep === 0} onClick={handleBack}>
                 Back
               </BackButton>
-              <NextButton
-                variant="contained"
-                disabled={activeStep === 0 ? !pickGenre : !pickSubgenre}
-                onClick={handleNext}
-              >
-                {activeStep === stepsAll.length - 1 ? 'Finish' : 'Next'}
+              <NextButton variant="contained" disabled={nextBtnDisable} onClick={handleNext}>
+                {activeStep === stepsCon.length - 1 ? 'Add' : 'Next'}
               </NextButton>
             </Box>
           </>
@@ -127,7 +142,8 @@ const HorizontalStepper = ({ pickGenre, pickSubgenre }) => {
 
 const mapStateToProps = state => ({
   pickGenre: getPickGenre(state),
-  pickSubgenre: getPickSubgenre(state)
+  pickSubgenre: getPickSubgenre(state),
+  enterAddNew: getAddSubgenreEnter(state)
 });
 
 export default connect(mapStateToProps)(HorizontalStepper);
