@@ -25,7 +25,7 @@ const infoForm = (state = initialState, action) => {
         ...state,
         fields: {
           ...state.fields,
-          [action.field]: action.value
+          [action.fieldName]: action.fieldValue
         }
       };
     case RESET:

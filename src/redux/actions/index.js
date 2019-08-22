@@ -51,10 +51,10 @@ export const setNewSubgenre = (field, value) => ({
   value
 });
 
-export const setInfoForm = (field, value) => ({
+export const setInfoForm = (fieldName, fieldValue) => ({
   type: SET_INFO_FORM,
-  field,
-  value
+  fieldName,
+  fieldValue
 });
 
 export const submitFormPending = () => ({
