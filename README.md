@@ -1,3 +1,10 @@
+# React-Redux-Form-Wizard
+### Front-end task
+
+Codesandbox [demo](https://codesandbox.io/s/react-redux-form-wizard-3p6tj)
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
