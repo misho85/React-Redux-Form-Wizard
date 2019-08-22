@@ -97,7 +97,7 @@ const HorizontalStepper = ({
   };
 
   const handleSubmit = data => {
-    console.log('FORM_DATA', data);
+    console.group('FORM_DATA', data);
   };
 
   const dataForm = { genre: pickGenre, subgenre: pickSubgenre, ...infoFields };
