@@ -7,7 +7,9 @@ import {
   ENTER_SUBGENRE,
   LEAVE_SUBGENRE,
   SET_NEW_SUBGENRE,
-  SET_INFO_FORM
+  SET_INFO_FORM,
+  SUBMIT_FORM_PENDING
+  // SUBMIT_FORM
 } from './types';
 
 // actions
@@ -53,4 +55,8 @@ export const setInfoForm = (field, value) => ({
   type: SET_INFO_FORM,
   field,
   value
+});
+
+export const submitFormPending = () => ({
+  type: SUBMIT_FORM_PENDING
 });

@@ -12,11 +12,6 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 
-const pick = css`
-  background-color: #1976d2;
-  color: white;
-`;
-
 const Field = styled(Button)`
   padding: 7px 12px;
   font-size: 0.5rem;
@@ -30,7 +25,12 @@ const Field = styled(Button)`
     padding: 14px 60px;
     font-size: 0.8rem;
   }
-  ${p => p.pick && pick};
+  ${p =>
+    p.pick &&
+    css`
+      background-color: #1976d2;
+      color: white;
+    `}
 `;
 
 const Genre = ({ genres, pickGenre, setGenre }) => (
@@ -46,7 +46,7 @@ const Genre = ({ genres, pickGenre, setGenre }) => (
                 disabled={!genres[i]}
                 value={genres[i]}
                 onClick={() => setGenre(genres[i])}
-                pick={pickGenre === genres[i]}
+                pick={(pickGenre === genres[i]) * 1}
               >
                 {genres[i] ? `${genres[i]}` : `Genre ${i + 1}`}
               </Field>

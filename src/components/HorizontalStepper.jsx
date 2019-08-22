@@ -3,7 +3,14 @@ import styled, { css } from 'styled-components';
 
 // Redux
 import { connect } from 'react-redux';
-import { getPickGenre, getPickSubgenre, getAddSubgenreEnter } from '../redux/selectors';
+import { submitFormPending } from '../redux/actions';
+import {
+  getPickGenre,
+  getPickSubgenre,
+  getAddSubgenreEnter,
+  getNewSubgenre,
+  getInfoFormFields
+} from '../redux/selectors';
 
 // MUI
 import Stepper from '@material-ui/core/Stepper';
@@ -51,7 +58,14 @@ const StepDots = () => <StepIconS icon={'...'} />;
 
 const stepsAll = ['genre', 'subgenre', 'add new subgenre', 'information'];
 
-const HorizontalStepper = ({ pickGenre, pickSubgenre, enterAddNew }) => {
+const HorizontalStepper = ({
+  pickGenre,
+  pickSubgenre,
+  enterAddNew,
+  newSubgenre,
+  submitFormPending,
+  infoFields
+}) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const getSteps = steps => {
@@ -75,7 +89,14 @@ const HorizontalStepper = ({ pickGenre, pickSubgenre, enterAddNew }) => {
     setActiveStep(0);
   };
 
-  const getStepContent = (stepIndex, pickSubgenre) => {
+  const handleAdd = () => {
+    setActiveStep(prevActiveStep => prevActiveStep + 1);
+    submitFormPending();
+  };
+
+  const handleNextOrAdd = activeStep === stepsCon.length - 1 ? handleAdd : handleNext;
+
+  const getStepContent = stepIndex => {
     switch (stepIndex) {
       case 0:
         return <Genre />;
@@ -96,7 +117,7 @@ const HorizontalStepper = ({ pickGenre, pickSubgenre, enterAddNew }) => {
       : activeStep === 1
       ? !pickSubgenre && !enterAddNew
       : activeStep === 2 && enterAddNew
-      ? false // uslov za formu addNew
+      ? !newSubgenre
       : false; // uslov za formu Info
 
   console.log('nextBtnDisable', nextBtnDisable);
@@ -129,7 +150,7 @@ const HorizontalStepper = ({ pickGenre, pickSubgenre, enterAddNew }) => {
               <BackButton variant="contained" disabled={activeStep === 0} onClick={handleBack}>
                 Back
               </BackButton>
-              <NextButton variant="contained" disabled={nextBtnDisable} onClick={handleNext}>
+              <NextButton variant="contained" disabled={nextBtnDisable} onClick={handleNextOrAdd}>
                 {activeStep === stepsCon.length - 1 ? 'Add' : 'Next'}
               </NextButton>
             </Box>
@@ -143,7 +164,12 @@ const HorizontalStepper = ({ pickGenre, pickSubgenre, enterAddNew }) => {
 const mapStateToProps = state => ({
   pickGenre: getPickGenre(state),
   pickSubgenre: getPickSubgenre(state),
-  enterAddNew: getAddSubgenreEnter(state)
+  enterAddNew: getAddSubgenreEnter(state),
+  newSubgenre: getNewSubgenre(state),
+  infoFields: getInfoFormFields(state)
 });
 
-export default connect(mapStateToProps)(HorizontalStepper);
+export default connect(
+  mapStateToProps,
+  { submitFormPending }
+)(HorizontalStepper);

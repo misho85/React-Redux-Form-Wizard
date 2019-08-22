@@ -12,11 +12,6 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 
-const pick = css`
-  background-color: #1976d2;
-  color: white;
-`;
-
 const Field = styled(Button)`
   padding: 7px 12px;
   font-size: 0.5rem;
@@ -30,7 +25,12 @@ const Field = styled(Button)`
     padding: 14px 60px;
     font-size: 0.8rem;
   }
-  ${p => p.pick && pick};
+  ${p =>
+    p.pick &&
+    css`
+      background-color: #1976d2;
+      color: white;
+    `}
 `;
 
 const Subgenre = ({
@@ -56,7 +56,7 @@ const Subgenre = ({
                   setSubgenre(subgenres[i]);
                   leaveSubgenre();
                 }}
-                pick={pickSubgenre === subgenres[i] && !enterAddNew}
+                pick={(pickSubgenre === subgenres[i] && !enterAddNew) * 1}
               >
                 {subgenres[i] ? `${subgenres[i]}` : `Subgenre ${i + 1}`}
               </Field>
@@ -66,7 +66,7 @@ const Subgenre = ({
             <Field
               title="Add new"
               variant="outlined"
-              pick={enterAddNew}
+              pick={enterAddNew * 1}
               onClick={() => enterSubgenre()}
             >
               Add new
