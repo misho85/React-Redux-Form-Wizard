@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
+import { validations } from '../validator';
 
 // Redux
 import { connect } from 'react-redux';
-import { submitFormPending } from '../redux/actions';
+import { submitFormPending, reset } from '../redux/actions';
 import {
   getPickGenre,
   getPickSubgenre,
   getAddSubgenreEnter,
   getNewSubgenre,
-  getInfoFormFields
+  getInfoFormFields,
+  getDescRequired,
+  getSubgenres
 } from '../redux/selectors';
 
 // MUI
@@ -64,7 +67,10 @@ const HorizontalStepper = ({
   enterAddNew,
   newSubgenre,
   submitFormPending,
-  infoFields
+  infoFields,
+  newSubgenreDescReq,
+  allSubgenres,
+  reset
 }) => {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -74,7 +80,7 @@ const HorizontalStepper = ({
 
   const stepsCon =
     pickSubgenre && !enterAddNew ? stepsAll.filter((step, i) => step[i] !== step[2]) : stepsAll;
-  console.log('stepsCon', stepsCon);
+
   const steps = getSteps(stepsCon);
 
   const handleNext = () => {
@@ -87,14 +93,33 @@ const HorizontalStepper = ({
 
   const handleReset = () => {
     setActiveStep(0);
+    reset();
   };
+
+  const handleSubmit = data => {
+    console.log('FORM_DATA', data);
+  };
+
+  const dataForm = { genre: pickGenre, subgenre: pickSubgenre, ...infoFields };
 
   const handleAdd = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
     submitFormPending();
+    handleSubmit(dataForm);
   };
 
   const handleNextOrAdd = activeStep === stepsCon.length - 1 ? handleAdd : handleNext;
+
+  // Information step validation
+  const validator = descReq =>
+    Object.values(validations(infoFields)(descReq)).every(el => (!el ? true : false));
+
+  const subgenreDescReq = pickSubgenre
+    ? allSubgenres.filter(subgenre => subgenre.name === pickSubgenre)[0].isDescriptionRequired
+    : false;
+
+  const validateInfoFormOldSubgenre = validator(subgenreDescReq);
+  const validateInfoFormNewSubgenre = validator(newSubgenreDescReq);
 
   const getStepContent = stepIndex => {
     switch (stepIndex) {
@@ -112,15 +137,17 @@ const HorizontalStepper = ({
   };
 
   const nextBtnDisable =
-    activeStep === 0
-      ? !pickGenre
-      : activeStep === 1
-      ? !pickSubgenre && !enterAddNew
-      : activeStep === 2 && enterAddNew
-      ? !newSubgenre
-      : false; // uslov za formu Info
-
-  console.log('nextBtnDisable', nextBtnDisable);
+    activeStep === 0 && pickGenre
+      ? false
+      : activeStep === 1 && (pickSubgenre || enterAddNew)
+      ? false
+      : activeStep === 2 && enterAddNew && newSubgenre
+      ? false
+      : activeStep === 2 && !enterAddNew && validateInfoFormOldSubgenre
+      ? false
+      : activeStep === 3 && enterAddNew && validateInfoFormNewSubgenre
+      ? false
+      : true;
 
   return (
     <>
@@ -166,10 +193,12 @@ const mapStateToProps = state => ({
   pickSubgenre: getPickSubgenre(state),
   enterAddNew: getAddSubgenreEnter(state),
   newSubgenre: getNewSubgenre(state),
-  infoFields: getInfoFormFields(state)
+  infoFields: getInfoFormFields(state),
+  newSubgenreDescReq: getDescRequired(state),
+  allSubgenres: getSubgenres(state)
 });
 
 export default connect(
   mapStateToProps,
-  { submitFormPending }
+  { submitFormPending, reset }
 )(HorizontalStepper);

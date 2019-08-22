@@ -1,4 +1,4 @@
-import { ENTER_SUBGENRE, LEAVE_SUBGENRE, SET_NEW_SUBGENRE } from '../actions/types';
+import { ENTER_SUBGENRE, LEAVE_SUBGENRE, SET_NEW_SUBGENRE, RESET } from '../actions/types';
 
 const initialState = {
   enterAddNew: false,
@@ -30,6 +30,8 @@ const addSubgenre = (state = initialState, action) => {
           [action.field]: action.value
         }
       };
+    case RESET:
+      return initialState;
     default:
       return state;
   }

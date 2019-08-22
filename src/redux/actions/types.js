@@ -14,3 +14,5 @@ export const SET_INFO_FORM = 'SET_NEW_SUBGENRE';
 
 export const SUBMIT_FORM_PENDING = 'SUBMIT_FORM_PENDING';
 export const SUBMIT_FORM = 'SUBMIT_FORM';
+
+export const RESET = 'RESET';

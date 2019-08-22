@@ -1,6 +1,6 @@
 import validator from 'validator';
 
-export const validations = ({ ...args }) => {
+export const validations = ({ ...args }) => descReq => {
   let errors = {
     bookTitle: '',
     author: '',
@@ -62,11 +62,13 @@ export const validations = ({ ...args }) => {
       editionLang: 'Edition language is required'
     };
   }
-  if (validator.isEmpty(args.description)) {
-    errors = {
-      ...errors,
-      description: 'Description language is required'
-    };
+  if (descReq) {
+    if (validator.isEmpty(args.description)) {
+      errors = {
+        ...errors,
+        description: 'Description language is required'
+      };
+    }
   }
 
   return errors;

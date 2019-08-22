@@ -1,4 +1,4 @@
-import { SUBMIT_FORM_PENDING } from '../actions/types';
+import { SUBMIT_FORM_PENDING, RESET } from '../actions/types';
 
 const initialState = {
   status: null
@@ -13,6 +13,8 @@ const submitForm = (state = initialState, action) => {
         ...state,
         status: SUBMIT_FORM_PENDING
       };
+    case RESET:
+      return initialState;
     default:
       return state;
   }

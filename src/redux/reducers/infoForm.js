@@ -1,4 +1,4 @@
-import { SET_INFO_FORM } from '../actions/types';
+import { SET_INFO_FORM, RESET } from '../actions/types';
 import { DateTime } from 'luxon';
 
 const dt = DateTime.local();
@@ -28,6 +28,8 @@ const infoForm = (state = initialState, action) => {
           [action.field]: action.value
         }
       };
+    case RESET:
+      return initialState;
     default:
       return state;
   }

@@ -1,10 +1,10 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import styled from "styled-components";
-import CheckCircle from "@material-ui/icons/CheckCircle";
-import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
+import CheckCircle from '@material-ui/icons/CheckCircle';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 const ResetButton = styled(Button)`
   padding: 14px 150px;
@@ -17,8 +17,8 @@ const ResetButton = styled(Button)`
 
 const Check = withStyles({
   root: {
-    width: "15rem",
-    height: "15rem"
+    width: '15rem',
+    height: '15rem'
   }
 })(CheckCircle);
 

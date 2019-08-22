@@ -7,7 +7,10 @@ export const getGenres = store => getConfig(store).reduce((acc, curr) => acc.con
 export const getPickGenre = store => store.pickGenre;
 
 export const getSubgenres = store =>
-  getConfig(store).filter(genre => genre.name === getPickGenre(store))[0].subgenres;
+  getPickGenre(store)
+    ? getConfig(store).filter(genre => genre.name === getPickGenre(store))[0].subgenres
+    : null;
+
 export const getSubgenresNames = store =>
   getSubgenres(store).reduce((acc, curr) => acc.concat(curr.name), []);
 export const getPickSubgenre = store => store.pickSubgenre;
@@ -16,6 +19,7 @@ export const getAddSubgenre = store => store.addSubgenre;
 export const getAddSubgenreEnter = store => getAddSubgenre(store).enterAddNew;
 export const getAddSubgenreFields = store => getAddSubgenre(store).fields;
 export const getNewSubgenre = store => getAddSubgenre(store).fields.newSubgenre;
+export const getDescRequired = store => getAddSubgenre(store).fields.checked;
 
 export const getInfoForm = store => store.infoForm;
 export const getInfoFormFields = store => getInfoForm(store).fields;
