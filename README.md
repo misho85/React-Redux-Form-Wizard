@@ -1,7 +1,7 @@
 # React-Redux-Form-Wizard
 ### Front-end task
 
-Live [demo](https://react-redux-form-wizard.netlify.com/)
+Live [demo](https://react-redux-form-wizard.netlify.com/)  
 Codesandbox [demo](https://codesandbox.io/s/react-redux-form-wizard-3p6tj)
 
 
