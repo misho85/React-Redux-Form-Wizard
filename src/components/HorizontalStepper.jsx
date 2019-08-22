@@ -100,7 +100,11 @@ const HorizontalStepper = ({
     console.group('FORM_DATA', data);
   };
 
-  const dataForm = { genre: pickGenre, subgenre: pickSubgenre, ...infoFields };
+  const dataForm = {
+    genre: pickGenre,
+    subgenre: enterAddNew ? newSubgenre : pickSubgenre,
+    ...infoFields
+  };
 
   const handleAdd = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
